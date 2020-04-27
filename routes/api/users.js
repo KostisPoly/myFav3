@@ -3,6 +3,9 @@ const router = express.Router();
 
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const secret = require('../../config/keys');
+
 const User =  require('../../models/User');
 
 router.get('/test', (req, res) => res.json({msg: "Users works"}));
@@ -43,7 +46,7 @@ router.post('/register', (req,  res) => {
 });
 router.post('/login', (req, res) => {
     const email = req.body.email;
-    const password = rewq.body.password;
+    const password = req.body.password;
 
     User.findOne({email})   //email: email
         .then(user => {
@@ -57,6 +60,18 @@ router.post('/login', (req, res) => {
                 .then(isMatch => {
                     if (isMatch) {
                         //generate JWT
+                        const payload = {
+                            id: user.id,
+                            name: user.name,
+                            avatar: user.avatar    
+                        };
+                        
+                        jwt.sign(payload, secret.secret, { expiresIn: 3600 }, (err, token) => {
+                            res.json({
+                                success: true,
+                                token: 'Bearer ' + token
+                            })
+                        });
                     } else {
                         return res.status(400).json({password: 'Incorrect password'});
                     }
