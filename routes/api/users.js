@@ -23,7 +23,7 @@ router.post('/register', (req,  res) => {
                     name: req.body.name,
                     email: req.body.email,
                     avatar, //avatar: avatar,
-                    password: reqbody.password
+                    password: req.body.password
                 });
 
                 //Generate password and store to user
@@ -40,5 +40,27 @@ router.post('/register', (req,  res) => {
                 });
             }
         })
+});
+router.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = rewq.body.password;
+
+    User.findOne({email})   //email: email
+        .then(user => {
+            //User by email doesnt exist
+            if (!user) {
+                return res.status(404).json({email: 'Email not found'});
+            }
+
+            //Check Password
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if (isMatch) {
+                        //generate JWT
+                    } else {
+                        return res.status(400).json({password: 'Incorrect password'});
+                    }
+                });
+        });
 });
 module.exports = router;
