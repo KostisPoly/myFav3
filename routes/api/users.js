@@ -7,10 +7,12 @@ const jwt = require('jsonwebtoken');
 const secret = require('../../config/keys');
 const passport = require('passport');
 
+//Load validation handlers
 const validateRegister = require('../../validations/register');
+const validateLogin = require('../../validations/login');
 
+//Load Models
 const User =  require('../../models/User');
-
 
 router.get('/test', (req, res) => res.json({msg: "Users works"}));
 
@@ -24,7 +26,7 @@ router.post('/register', (req,  res) => {
     User.findOne({ email: req.body.email })
         .then(user => {
             if (user) {
-                //If user with input email
+                //If user with input email exists in cluster
                 errors.email = 'Email already exists';
                 return res.status(400).json(errors)
             } else {
@@ -57,6 +59,12 @@ router.post('/register', (req,  res) => {
         })
 });
 router.post('/login', (req, res) => {
+    //Return valudation errors
+    const { errors, isValid } = validateLogin(req.body); //validation errors
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     const email = req.body.email;
     const password = req.body.password;
     console.log('Password from req ' + password);
@@ -64,7 +72,8 @@ router.post('/login', (req, res) => {
         .then(user => {
             //User by email doesnt exist
             if (!user) {
-                return res.status(404).json({email: 'Email not found'});
+                errors.email = 'User not found';
+                return res.status(404).json(errors.email);
             }
 
             //Check Password
@@ -85,7 +94,8 @@ router.post('/login', (req, res) => {
                             })
                         });
                     } else {
-                        return res.status(400).json({password: 'Incorrect password'});
+                        errors.password = 'Wrong password';
+                        return res.status(400).json(errors.password);
                     }
                 }).catch(err => console.log(err));
         });
