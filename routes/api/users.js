@@ -49,7 +49,7 @@ router.post('/register', (req,  res) => {
 router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-
+    console.log('Password from req ' + password);
     User.findOne({email})   //email: email
         .then(user => {
             //User by email doesnt exist
@@ -77,11 +77,15 @@ router.post('/login', (req, res) => {
                     } else {
                         return res.status(400).json({password: 'Incorrect password'});
                     }
-                });
+                }).catch(err => console.log(err));
         });
 });
 
-router.get('/current', passport.authenticate('jwt', {session: false }), () => {
-    res.json({msg: 'success'});
+router.get('/current', passport.authenticate('jwt', {session: false }), (req, res) => {
+    res.json({
+        id: req.user.id,
+        email: req.user.email,
+        name: req.user.name
+    });
 });
 module.exports = router;
