@@ -18,8 +18,8 @@ module.exports = function validateLogin(data) {
         errors.password = 'Password is required';
     }
 
-     return {
-         errors,
-         isValid: isEmpty(errors)
-     }
+    return {
+        errors,
+        isValid: isEmpty(errors)
+    }
 }
