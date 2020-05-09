@@ -6,6 +6,9 @@ const passport = require('passport');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const validateProfile = require('../../validations/profile');
+const validateMovies = require('../../validations/favMovies');
+const validateSongs = require('../../validations/favSongs');
+const validateShows = require('../../validations/favShows');
 
 router.get('/test', (req, res) => res.json({msg: "Profile works"}));
 
@@ -23,6 +26,36 @@ router.get('/', passport.authenticate('jwt', { session: false }),  (req, res) =>
         return res.json(profile);
     })
     .catch( error => res.status(404).json({msg: 'banana!'}));
+});
+
+//Public profile route
+router.get('/handle/:handle', (req, res) => {
+    const errors = {};
+    Profile.findOne({ handle: req.params.handle})   //get handle from url
+    .populate('user', ['name', 'avatar'])   //after finding in db user populate profile with user data
+    .then(profile => {
+        if (!profile) {
+            errors.noprofile = 'No profile found for specific user';
+            res.status(404).json(errors);
+        }
+
+        res.json(profile);
+    }).catch(error => res.status(404).json(error));
+});
+
+//Public profile route
+router.get('/user/:userid', (req, res) => {
+    const errors = {};
+    Profile.findOne({ user: req.params.userid})   //get handle from url
+    .populate('user', ['name', 'avatar'])   //after finding in db user populate profile with user data
+    .then(profile => {
+        if (!profile) {
+            errors.noprofile = 'No profile found for specific user';
+            res.status(404).json(errors);
+        }
+
+        res.json(profile);
+    }).catch(() => res.status(404).json({error: 'No profile found for specific user'})); //Custom masg but same with db nonfound
 });
 
 //Create or edit profile route
@@ -60,6 +93,90 @@ router.post('/', passport.authenticate('jwt', { session: false }),  (req, res) =
                 new Profile(profileData).save().then(profile => res.json(profile));
             });
         }
+    })
+});
+
+//Post Favourites routes
+router.post('/movies', passport.authenticate('jwt', { session: false }),  (req, res) => {
+    const { errors, isValid } = validateMovies(req.body);
+    
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+    .then(profile => {
+        const movie = {
+            title: req.body.title,
+            id: req.body.id,
+            year: req.body.year,
+            length: req.body.length,
+            rating: req.body.rating,
+            poster: req.body.poster
+        }
+
+        //Append to profile favmovie data and save to DB
+        profile.favMovies.unshift(movie);
+        profile.save().then(profile => res.json(profile));
+    })
+});
+
+router.post('/songs', passport.authenticate('jwt', { session: false }),  (req, res) => {
+    const { errors, isValid } = validateSongs(req.body);
+    
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+    .then(profile => {
+        const song = {
+            title: req.body.title,
+            id: req.body.id,
+            preview: req.body.preview,
+            duration: req.body.duration,
+            artist: {
+                name: req.body.artist.name,
+                id: req.body.artist.id,
+                picture: req.body.artist.picture
+            },
+            album: {
+                title: req.body.album.title,
+                id: req.body.album.id,
+                cover: req.body.album.cover,
+                tracklist: req.body.album.tracklist,
+                released: req.body.album.released
+            }
+        }
+
+        //Append to profile favsong data and save to DB
+        profile.favSongs.unshift(song);
+        profile.save().then(profile => res.json(profile));
+    })
+});
+
+router.post('/shows', passport.authenticate('jwt', { session: false }),  (req, res) => {
+    const { errors, isValid } = validateShows(req.body);
+    
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+    .then(profile => {
+        const show = {
+            name: req.body.name,
+            id: req.body.id,
+            genres: req.body.genres,
+            officialSite: req.body.officialSite,
+            rating: req.body.rating,
+            imdbId: req.body.imdbId,
+            image: req.body.image
+        }
+
+        //Append to profile favshow data and save to DB
+        profile.favShows.unshift(show);
+        profile.save().then(profile => res.json(profile));
     })
 });
 

@@ -101,7 +101,7 @@ const ProfileSchema = new Schema({
             }    
         }
     ], 
-    favShow: [
+    favShows: [
         {
             name: {
                 type: String,
