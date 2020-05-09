@@ -180,4 +180,47 @@ router.post('/shows', passport.authenticate('jwt', { session: false }),  (req, r
     })
 });
 
+//Delete routes
+router.delete('/movies/:movie', passport.authenticate('jwt', { session: false }),  (req, res) => {
+    
+    Profile.findOne({ user: req.user.id })
+    .then(profile => {
+        //Find by params and remove from array then update DB
+        const removeMovie = profile.favMovies
+            .map(item => item.id)
+            .indexOf(req.params.movie);
+
+        profile.favMovies.splice(removeMovie, 1);
+        profile.save().then(profile => res.json(profile));
+    }).catch(error => res.status(404).json(error));
+});
+
+router.delete('/songs/:song', passport.authenticate('jwt', { session: false }),  (req, res) => {
+    
+    Profile.findOne({ user: req.user.id })
+    .then(profile => {
+        //Find by params and remove from array then update DB
+        const removeSong = profile.favSongs
+            .map(item => item.id)
+            .indexOf(req.params.song);
+
+        profile.favSongs.splice(removeSong, 1);
+        profile.save().then(profile => res.json(profile));
+    }).catch(error => res.status(404).json(error));
+});
+
+router.delete('/shows/:show', passport.authenticate('jwt', { session: false }),  (req, res) => {
+    
+    Profile.findOne({ user: req.user.id })
+    .then(profile => {
+        //Find by params and remove from array then update DB
+        const removeShow = profile.favShows
+            .map(item => item.id)
+            .indexOf(req.params.show);
+
+        profile.favShows.splice(removeShow, 1);
+        profile.save().then(profile => res.json(profile));
+    }).catch(error => res.status(404).json(error));
+});
+
 module.exports = router;
