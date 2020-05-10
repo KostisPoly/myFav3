@@ -12,7 +12,7 @@ class Register extends Component {
             email: '',
             password: '',
             password2: '',
-            errors: ''
+            errors: {}
         };
 
         this.onChange = this.onChange.bind(this);
@@ -40,7 +40,7 @@ class Register extends Component {
                         onSubmit={this.onSubmit}
                         noValidate 
                         autoComplete="off" 
-                        style={{width: '50vw', textAlign: 'center', margin: '0 auto'}}>
+                        style={{width: '50vw', textAlign: 'center', margin: '0 auto', paddingTop: '10vh'}}>
                         <FormControl fullWidth={true} margin="dense">
                             <InputLabel htmlFor="name">Full Name</InputLabel>
                             <Input id="name"
