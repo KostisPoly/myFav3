@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { registerUser } from '../actions/authAction';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Particle from './Particles';
 
 class Register extends Component {
@@ -39,7 +40,7 @@ class Register extends Component {
             password2: this.state.password2
         };
 
-        this.props.registerUser(newUser);
+        this.props.registerUser(newUser, this.props.history);//Use to redirect in registeruser action
         // Axios.post('/api/users/register', newUser)
         //     .then(res => console.log(res.data))
         //     .catch(err => console.log(err.response.data));
@@ -146,4 +147,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(Register);
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
