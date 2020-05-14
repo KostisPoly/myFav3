@@ -3,6 +3,10 @@ import { Button, FormControl, InputLabel, Input, FormHelperText, InputAdornment 
 import { AccountCircle, Email, Visibility } from '@material-ui/icons';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux';
+import { registerUser } from '../actions/authAction';
+import PropTypes from 'prop-types';
+import Particle from './Particles';
 
 class Register extends Component {
     constructor(props) {
@@ -26,11 +30,22 @@ class Register extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+
+        //user object from state to
+        const newUser = {
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password,
+            password2: this.state.password2
+        };
+
+        this.props.registerUser(newUser);
     }
 
     render() {
         return (
             <Container disableGutters maxWidth={false}>
+                <Particle />
                 <Typography component={'div'}
                 style={{ 
                 background: 'linear-gradient(45deg, rgb(254, 107, 139, 0.5) 20%, rgb(255, 142, 83, 0.5) 70%)',
@@ -112,4 +127,14 @@ class Register extends Component {
     }
 }
 
-export default Register;
+//Typechecking props with proptypes and passing state to props
+Register.propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps, { registerUser })(Register);

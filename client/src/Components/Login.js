@@ -3,6 +3,7 @@ import { Button, FormControl, InputLabel, Input, InputAdornment, FormHelperText 
 import { Email, Visibility } from '@material-ui/icons';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
+import Particle from './Particles';
 
 class Login extends Component {
     constructor(props) {
@@ -66,6 +67,7 @@ class Login extends Component {
     render() {
         return (
             <Container disableGutters maxWidth={false}>
+                <Particle />
                 <Typography component={'div'}
                 style={{ 
                 background: 'linear-gradient(45deg, rgb(254, 107, 139, 0.5) 20%, rgb(255, 142, 83, 0.5) 70%)',
