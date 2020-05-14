@@ -9,6 +9,12 @@ const posts =require('./routes/api/posts');
 
 const app = express();
 
+//test CORS header fix *==TEST CASE CHANGE DEAFAULT ALOW ALL TO CERTAIN PROXY
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
 //Body-parser middleware
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

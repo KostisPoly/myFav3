@@ -31,7 +31,7 @@ class Register extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        //user object from state to
+        //user object from component state
         const newUser = {
             name: this.state.name,
             email: this.state.email,
@@ -40,9 +40,16 @@ class Register extends Component {
         };
 
         this.props.registerUser(newUser);
+        // Axios.post('/api/users/register', newUser)
+        //     .then(res => console.log(res.data))
+        //     .catch(err => console.log(err.response.data));
     }
 
     render() {
+        //user and errors from redux props
+        const { user } = this.props.auth;
+        const { errors } = this.props.errors;
+
         return (
             <Container disableGutters maxWidth={false}>
                 <Particle />
@@ -130,11 +137,13 @@ class Register extends Component {
 //Typechecking props with proptypes and passing state to props
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    auth: state.auth,
+    errors: state.errors
 });
 
 export default connect(mapStateToProps, { registerUser })(Register);
