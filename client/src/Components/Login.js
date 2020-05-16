@@ -4,6 +4,9 @@ import { Email, Visibility } from '@material-ui/icons';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Particle from './Particles';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../actions/authAction';
 
 class Login extends Component {
     constructor(props) {
@@ -58,13 +61,25 @@ class Login extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+
+        const user = {
+            email: this.state.email,
+            password: this.state.password
+        };
+
         if (this.state.validPassword && this.state.validEmail && this.state.emailError === ''  && this.state.passwordError === '' ) {
             console.log('Valid!');
+            this.props.loginUser(user, this.props.history);//Use to redirect in loginuser action
         }
         
     }
 
     render() {
+
+        //user and errors from redux props
+        const { user } = this.props.auth;
+        const { errors } = this.props.errors;
+
         return (
             <Container disableGutters maxWidth={false}>
                 <Particle />
@@ -120,4 +135,16 @@ class Login extends Component {
     }
 }
 
-export default Login;
+//Typechecking props with proptypes and passing state to props
+Register.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    auth:state.auth,
+    errors: state.errors
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);

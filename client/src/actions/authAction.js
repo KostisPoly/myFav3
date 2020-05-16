@@ -16,7 +16,7 @@ export const registerUser = (userData, history) => dispatch => {
         );
 };
 
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
     axios.post('/api/users/login', useData)
         .then(res => {
             //Save jwt to localstorage and auth headers
@@ -26,7 +26,9 @@ export const loginUser = userData => dispatch => {
             const tokenDecoded = jwt_decode(token);
             //dispatch user data and if not empty authorize in reducer
             dispatch(currentUser(tokenDecoded));
+
         })
+        .then(() => {history.push('/dashboard')})
         .catch(
             err => (console.log(err.response), dispatch({
                 type: GET_ERRORS,

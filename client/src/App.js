@@ -8,6 +8,16 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import { Provider } from 'react-redux';
 import store from './store';
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './common/setToken';
+import { currentUser } from './actions/authAction';
+
+//chack and set user if jwt is present in every page request
+if (localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken);
+  const tokenDecoded = jwt_decode(localStorage.jwtToken);
+  store.dispatch(currentUser(tokenDecoded));
+}
 
 class App extends Component {
   render() {
@@ -26,5 +36,6 @@ class App extends Component {
     )
   }
 }
+import { formatMs } from '@material-ui/core';
 
 export default App;
