@@ -36,6 +36,5 @@ class App extends Component {
     )
   }
 }
-import { formatMs } from '@material-ui/core';
 
 export default App;

@@ -136,7 +136,7 @@ class Login extends Component {
 }
 
 //Typechecking props with proptypes and passing state to props
-Register.propTypes = {
+Login.propTypes = {
     loginUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired

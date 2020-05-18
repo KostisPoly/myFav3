@@ -17,7 +17,7 @@ export const registerUser = (userData, history) => dispatch => {
 };
 
 export const loginUser = (userData, history) => dispatch => {
-    axios.post('/api/users/login', useData)
+    axios.post('/api/users/login', userData)
         .then(res => {
             //Save jwt to localstorage and auth headers
             const { token } = res.data; //STRING
