@@ -5,13 +5,15 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authAction';
+import { clearProfile } from '../actions/profileActions';
 
 class NavBar extends Component {
     
     onLogout(e) {
         e.preventDefault();
+        this.props.clearProfile();
         this.props.logoutUser();
-        window.location.href = '/login';
+        //window.location.href = '/login';
     }
 
     render() {
@@ -68,4 +70,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUser })(NavBar);
+export default connect(mapStateToProps, { logoutUser, clearProfile })(NavBar);

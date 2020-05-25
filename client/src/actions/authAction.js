@@ -21,7 +21,7 @@ export const loginUser = (userData, history) => dispatch => {
         .then(res => {
             //Save jwt to localstorage and auth headers
             const { token } = res.data; //STRING
-            localStorage.setItem('jwt', token);
+            localStorage.setItem('jwtToken', token);
             setAuthToken(token);
             const tokenDecoded = jwt_decode(token);
             //dispatch user data and if not empty authorize in reducer
@@ -47,7 +47,7 @@ export const currentUser = (tokenDecoded) => {
 
 export const logoutUser = () => dispatch => {
     //Remove from localstorage call setAuthtoken with no token and dispatch empty current user
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('jwtToken');
     setAuthToken(false);
     dispatch(currentUser({}));
 }
