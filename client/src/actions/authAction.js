@@ -44,3 +44,10 @@ export const currentUser = (tokenDecoded) => {
         payload: tokenDecoded 
     }
 }
+
+export const logoutUser = () => dispatch => {
+    //Remove from localstorage call setAuthtoken with no token and dispatch empty current user
+    localStorage.removeItem('jwt');
+    setAuthToken(false);
+    dispatch(currentUser({}));
+}

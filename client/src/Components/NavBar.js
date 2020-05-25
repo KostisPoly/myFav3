@@ -1,10 +1,42 @@
 import React, { Component } from "react";
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Typography, Button, Avatar } from "@material-ui/core";
 import  MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logoutUser } from '../actions/authAction';
 
 class NavBar extends Component {
+    
+    onLogout(e) {
+        e.preventDefault();
+        this.props.logoutUser();
+        window.location.href = '/login';
+    }
+
     render() {
+
+        const { isAuthenticated, user } = this.props.auth;
+
+        //Logout button
+        const isLogedIn = (
+            <div>
+                <Button component={Link} to="/login" onClick={this.onLogout.bind(this)} >Logout</Button>
+                <Avatar alt={user.name} src={user.avatar}></Avatar>
+            </div>
+        );
+        //Login and Signin    
+        const isNotLogedIn = (
+            <div>
+            <Link className="" to="/register">
+                Sign Up
+            </Link>
+            <Link className="" to="/login">
+                Log In
+            </Link>
+            </div>
+        );
+
         return (
             <AppBar position="static" color="secondary">
             <Toolbar variant="dense">
@@ -20,16 +52,20 @@ class NavBar extends Component {
             MyFav3
             </Link>
             </Typography>
-            <Link className="" to="/register">
-                Sign Up
-            </Link>
-            <Link className="" to="/login">
-                Log In
-            </Link>
+            {isAuthenticated ? isLogedIn : isNotLogedIn}
             </Toolbar>
             </AppBar>
         );
     }
 }
 
-export default NavBar;
+NavBar.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps, { logoutUser })(NavBar);
