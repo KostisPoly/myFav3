@@ -23,7 +23,7 @@ class NavBar extends Component {
         //Logout button
         const isLogedIn = (
             <div>
-                <Button component={Link} to="/login" onClick={this.onLogout.bind(this)} >Logout</Button>
+                <Button  onClick={this.onLogout.bind(this)} >Logout</Button>
                 <Avatar alt={user.name} src={user.avatar}></Avatar>
             </div>
         );
