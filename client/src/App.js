@@ -14,6 +14,7 @@ import { currentUser, logoutUser } from './actions/authAction';
 import Dashboard from './Components/DashBoard';
 import { clearProfile } from './actions/profileActions';
 import PrivateRoute from './common/PrivateRoute';
+import CreateProfile from './Components/CreateProfile';
 
 //check and set user if jwt is present in every page request
 if (localStorage.jwtToken) {
@@ -43,6 +44,9 @@ class App extends Component {
           <Route path="/login" component={Login} exact />
           <Switch>
             <PrivateRoute path="/dashboard" component={Dashboard} exact />
+          </Switch>
+          <Switch>
+            <PrivateRoute path="/create-profile" component={CreateProfile} exact />
           </Switch>
           <Footer />
           </div>

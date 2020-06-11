@@ -23,8 +23,8 @@ class NavBar extends Component {
         //Logout button
         const isLogedIn = (
             <div>
-                <Button  onClick={this.onLogout.bind(this)} >Logout</Button>
-                <Avatar alt={user.name} src={user.avatar}></Avatar>
+                <Avatar alt={user.name} src={user.avatar} style={{margin: '1vh auto'}}></Avatar>
+                <Button  onClick={this.onLogout.bind(this)}>Logout</Button>
             </div>
         );
         //Login and Signin    
@@ -49,7 +49,7 @@ class NavBar extends Component {
             >
             <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit">
+            <Typography variant="h6" color="inherit" style={{flexGrow: 1}}>
             <Link to="/">
             MyFav3
             </Link>

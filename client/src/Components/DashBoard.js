@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../actions/profileActions";
 import Spinner from "../common/progressBar";
+import Particle from './Particles';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import { Link } from 'react-router-dom';
 
 class DashBoard extends Component {
     componentDidMount() {
@@ -16,13 +20,36 @@ class DashBoard extends Component {
 
         let dashboardContent;
 
+        //Logged in user has profile data or not
         if (profile === null || loading) {
             dashboardContent = <Spinner />
         } else {
-            dashboardContent = <h4>Looaded contnnt</h4>;
+            if (Object.keys(profile).length > 0){
+                dashboardContent = <h4>Profile data here</h4>;
+            } else {
+                dashboardContent = 
+                <div>
+                    <p>Welcome {user.name}</p>
+                    <p>Please create your own personal profile</p>
+                    <Link to="create-profile">Create my Profile</Link>
+                </div>;
+            }
+            
         }
 
-        return <div>{dashboardContent}</div>;
+        return (
+            <Container disableGutters maxWidth={false}>
+                <Particle />
+                <Typography component={'div'}
+                style={{ 
+                background: 'linear-gradient(45deg, rgb(254, 107, 139, 0.5) 20%, rgb(255, 142, 83, 0.5) 70%)',
+                height: '90vh'
+                }}>
+                {dashboardContent}
+                </Typography>
+                
+            </Container>
+        );
     }
 }
 
