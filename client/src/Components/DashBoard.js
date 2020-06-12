@@ -25,7 +25,7 @@ class DashBoard extends Component {
             dashboardContent = <Spinner />
         } else {
             if (Object.keys(profile).length > 0){
-                dashboardContent = <h4>Profile data here</h4>;
+                dashboardContent = <h4>{profile.user.name} - {profile.handle}</h4>;
             } else {
                 dashboardContent = 
                 <div>
@@ -42,7 +42,7 @@ class DashBoard extends Component {
                 <Particle />
                 <Typography component={'div'}
                 style={{ 
-                background: 'linear-gradient(45deg, rgb(254, 107, 139, 0.5) 20%, rgb(255, 142, 83, 0.5) 70%)',
+                background: 'linear-gradient(135deg, rgb(254, 107, 139, 0.5) 20%, rgb(255, 142, 83, 0.5) 70%)',
                 height: '90vh'
                 }}>
                 {dashboardContent}
