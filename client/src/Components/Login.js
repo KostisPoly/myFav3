@@ -92,7 +92,7 @@ class Login extends Component {
                 <Typography component={'div'}
                 style={{ 
                 background: 'linear-gradient(45deg, rgb(254, 107, 139, 0.5) 20%, rgb(255, 142, 83, 0.5) 70%)',
-                height: '90vh'
+                height: '91vh'
                 }}>
                     <form
                         onSubmit={this.onSubmit}

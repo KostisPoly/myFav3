@@ -5,8 +5,10 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Particle from './Particles';
 import { Button, FormControl, InputLabel, Input, FormHelperText, TextareaAutosize } from '@material-ui/core'
-import { createProfile } from '../actions/profileActions';
+import { createProfile, getCurrentProfile } from '../actions/profileActions';
 import { withRouter } from 'react-router-dom';
+
+const isEmpty = require('lodash/isEmpty');
 
 class CreateProfile extends Component {
     constructor(props) {
@@ -22,9 +24,34 @@ class CreateProfile extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        
+        this.props.getCurrentProfile();
+        console.log("This props ", this.props);
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
+            console.log("error will receive");
             this.setState({ errors: nextProps.errors });
+        }
+
+        //If profile as props populate the component state profile and component variables
+        if (nextProps.profile.profile) {
+            console.log("nextprops will receive");
+            console.log(nextProps);
+            const profile = nextProps.profile.profile;
+            profile.age = !isEmpty(profile.age) ? profile.age : '';
+            profile.bio = !isEmpty(profile.bio) ? profile.bio : '';
+            profile.profesion = !isEmpty(profile.profesion) ? profile.profesion : '';
+            console.log(profile);
+            this.setState({
+                handle: profile.handle,
+                age: profile.age,
+                bio: profile.bio,
+                profesion: profile.profesion
+            });
+
         }
     }
 
@@ -84,11 +111,11 @@ class CreateProfile extends Component {
                                 </FormControl>
                                 <FormControl fullWidth={true} margin="dense">
                                     <TextareaAutosize name="bio" 
-                                        id="bio" 
-                                        aria-label="minimum height" 
+                                        id="bio" aria-label="minimum height" 
                                         rowsMin={4} 
                                         placeholder="So about me then..."
                                         onChange={this.onChange}
+                                        value={this.state.bio}
                                         />
                                     <FormHelperText id="my-helper-text3">What others should now about you</FormHelperText> 
                                 </FormControl>
@@ -115,7 +142,9 @@ class CreateProfile extends Component {
 
 CreateProfile.propTypes = {
     profile: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    createProfile: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -123,4 +152,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 })
 
-export default connect(mapStateToProps, { createProfile })(withRouter(CreateProfile));
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(withRouter(CreateProfile));

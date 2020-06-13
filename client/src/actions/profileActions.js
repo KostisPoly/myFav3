@@ -5,7 +5,7 @@ import { GET_PROFILE, PROFILE_LOADING, CLEAR_PROFILE, GET_ERRORS } from './types
 export const getCurrentProfile = () => dispatch => {
     dispatch(setProfileLoading());
     axios.get('/api/profile')
-        .then(res => (console.log(res.data),dispatch({
+        .then(res => (console.log("data in getcurrentprofile"),console.log(res.data),dispatch({
             type: GET_PROFILE,
             payload: res.data
         })))

@@ -12,12 +12,12 @@ const ProfileSchema = new Schema({
         max: 40
     },
     age: {
-        type: Number
+        type: String
     },
     bio: {
         type: String
     },
-    profession: {
+    profesion: {
         type: String
     },
     favMovies: [

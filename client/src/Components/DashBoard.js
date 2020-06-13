@@ -7,6 +7,7 @@ import Particle from './Particles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
+import ProfileActions from './ProfileActions';
 
 class DashBoard extends Component {
     componentDidMount() {
@@ -25,7 +26,11 @@ class DashBoard extends Component {
             dashboardContent = <Spinner />
         } else {
             if (Object.keys(profile).length > 0){
-                dashboardContent = <h4>{profile.user.name} - {profile.handle}</h4>;
+                dashboardContent = 
+                    <div>
+                        <h4>{profile.user.name} - {profile.handle} - <Link to={`/profile/${profile.handle}`}>View Profile</Link></h4>
+                        <ProfileActions />
+                    </div>;
             } else {
                 dashboardContent = 
                 <div>

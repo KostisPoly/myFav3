@@ -38,8 +38,8 @@ router.get('/handle/:handle', (req, res) => {
             errors.noprofile = 'No profile found for specific user';
             res.status(404).json(errors);
         }
-
-        res.json(profile);
+        res.status(404).json({});
+        //res.json(profile);
     }).catch(error => res.status(404).json(error));
 });
 
