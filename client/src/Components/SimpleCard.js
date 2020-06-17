@@ -10,7 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import Link from '@material-ui/core/Link';
 import Icon from '@material-ui/core/Icon';
 import Badge from '@material-ui/core/Badge';
-//import { Link as RouterLink} from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -19,10 +18,6 @@ const useStyles = makeStyles({
         margin: '0 auto'
     },
 });
-
-// const LinkBehavior = React.forwardRef((props, ref) => (
-//     <RouterLink ref={ref}  {...props} />
-// ));
 
 export default function ImgMediaCard(props) {
     const classes = useStyles();
@@ -41,7 +36,7 @@ export default function ImgMediaCard(props) {
             <CardActionArea>
             <CardMedia
                 component="img"
-            alt={props.card.title}
+                alt={props.card.title}
                 height="300"
                 image={props.card.poster}
                 title={props.card.title}
@@ -56,10 +51,10 @@ export default function ImgMediaCard(props) {
             </CardContent>
             </CardActionArea>
             <CardActions>
-            <Button size="small" color="primary" target="_blank" href={props.card.trailer.link}>
+            <Button size="small" color="primary" target="_blank" href={props.card.trailer}>
                 Watch Trailer
             </Button>
-            <Link size="small" color="primary" href={props.card.trailer.link} target="_blank">
+            <Link size="small" color="primary" href={props.card.trailer} target="_blank">
                 Watch Trailer
             </Link>
             <Typography variant="subtitle2" color="textSecondary">

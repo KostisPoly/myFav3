@@ -31,20 +31,22 @@ const ProfileSchema = new Schema({
                 required: true
             },
             year: {
-                type: Number,
-                required: true
+                type: Number
             },
             length: {
-                type: String,
-                required: true
+                type: String
             },
             rating: {
-                type: String,
-                required: true
+                type: String
             },
             poster: {
-                type: String,
-                required: true
+                type: String
+            },
+            plot: {
+                type: String
+            },
+            trailer: {
+                type: String
             }    
         }
     ],

@@ -112,7 +112,9 @@ router.post('/movies', passport.authenticate('jwt', { session: false }),  (req, 
             year: req.body.year,
             length: req.body.length,
             rating: req.body.rating,
-            poster: req.body.poster
+            poster: req.body.poster,
+            plot: req.body.plot,
+            trailer: req.body.trailer
         }
 
         //Append to profile favmovie data and save to DB

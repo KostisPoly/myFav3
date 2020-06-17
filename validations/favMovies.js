@@ -10,6 +10,8 @@ module.exports = function validateMovies(data) {
     data.length = !isEmpty(data.length) ? data.length : '';
     data.rating = !isEmpty(data.rating) ? data.rating : '';
     data.poster = !isEmpty(data.poster) ? data.poster : '';
+    data.plot = !isEmpty(data.plot) ? data.plot : '';
+    data.trailer = !isEmpty(data.trailer) ? data.trailer : '';
 
     if (validator.isEmpty(data.title)) {
         errors.title = 'Title mot present but required';
@@ -19,21 +21,21 @@ module.exports = function validateMovies(data) {
         errors.id = 'ID mot present but required';
     }
     
-    if (validator.isEmpty(data.year)) {
-        errors.year = 'Year mot present but required';
-    }
+    // if (validator.isEmpty(data.year)) {
+    //     errors.year = 'Year mot present but required';
+    // }
 
-    if (validator.isEmpty(data.length)) {
-        errors.length = 'Length mot present but required';
-    }
+    // if (validator.isEmpty(data.length)) {
+    //     errors.length = 'Length not present but required';
+    // }
 
-    if (validator.isEmpty(data.rating)) {
-        errors.rating = 'Rating mot present but required';
-    }
+    // if (validator.isEmpty(data.rating)) {
+    //     errors.rating = 'Rating mot present but required';
+    // }
 
-    if (validator.isEmpty(data.poster)) {
-        errors.poster = 'Poster mot present but required';
-    }
+    // if (validator.isEmpty(data.poster)) {
+    //     errors.poster = 'Poster not present but required';
+    // }
 
     return {
         errors,

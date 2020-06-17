@@ -4,14 +4,12 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Button, Paper } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Particle from './Particles';
 import Typography from '@material-ui/core/Typography';
-
+import { addMovie } from '../actions/profileActions';
 import SimpleCard from './SimpleCard';
-
-const isEmpty = require('lodash/isEmpty');
 
 class AddMovie extends Component {
     constructor(props) {
@@ -53,7 +51,7 @@ class AddMovie extends Component {
                 console.log(data);
                 this.setState({
                     title: data.title,
-                    trailer: data.trailer,
+                    trailer: data.trailer.link,
                     plot: data.plot,
                     id: data.id,
                     year: data.year,
@@ -96,8 +94,22 @@ class AddMovie extends Component {
         
     }
     onSubmit(e) {
+        //On submit dispatch action and redirect and remove background style
         e.preventDefault();
         console.log(this.state);
+        const movieData = {
+            title: this.state.title,
+            trailer: this.state.trailer,
+            plot: this.state.plot,
+            id: this.state.id,
+            year: this.state.year,
+            length: this.state.length,
+            rating: this.state.rating,
+            poster: this.state.poster  
+        };
+
+        this.props.addMovie(movieData, this.props.history);
+        
         document.body.style.backgroundPosition = '';
         document.body.style.backgroundSize = '';
         document.body.style.backgroundRepeat = '';
@@ -130,7 +142,7 @@ class AddMovie extends Component {
                     style={{ width: '50vw' }}
                     renderInput={(params) => <TextField {...params} label="Search Movie" variant="outlined" onChange={this.onChange} />}
                 />
-                <Button type="submit" variant="contained" size="large" color="secondary">Search</Button>
+                <Button type="submit" variant="contained" size="large" color="secondary">ADD</Button>
                 </form>
                 
             </Typography>    
@@ -140,6 +152,7 @@ class AddMovie extends Component {
 }
 
 AddMovie.propTypes = {
+    addMovie: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };
@@ -148,4 +161,4 @@ const mapStateToProps = (state) => ({
     profile:state.profile,
     errors: state.errors
 });
-export default connect(mapStateToProps)(withRouter(AddMovie));
+export default connect(mapStateToProps, { addMovie })(withRouter(AddMovie));
