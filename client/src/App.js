@@ -17,6 +17,8 @@ import PrivateRoute from './common/PrivateRoute';
 import CreateProfile from './Components/CreateProfile';
 import EditProfile from './Components/EditProfile';
 import AddMovie from './Components/AddMovie';
+import AddShow from './Components/AddShow';
+import AddSong from './Components/AddSong';
 
 //check and set user if jwt is present in every page request
 if (localStorage.jwtToken) {
@@ -55,6 +57,12 @@ class App extends Component {
           </Switch>
           <Switch>
             <PrivateRoute path="/add-movie" component={AddMovie} exact />
+          </Switch>
+          <Switch>
+            <PrivateRoute path="/add-song" component={AddSong} exact />
+          </Switch>
+          <Switch>
+            <PrivateRoute path="/add-show" component={AddShow} exact />
           </Switch>
           <Footer />
           </div>

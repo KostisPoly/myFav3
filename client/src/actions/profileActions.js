@@ -34,6 +34,15 @@ export const addMovie = (movieData, history) => dispatch => {
     }))
 }
 
+export const addShow = (showData, history) => dispatch => {
+    axios.post('/api/profile/shows', showData)
+    .then(res => history.push('/dashboard'))
+    .catch(err => dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+    }))
+}
+
 export const setProfileLoading = () => {
     return {
         type: PROFILE_LOADING

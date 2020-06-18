@@ -170,10 +170,15 @@ router.post('/shows', passport.authenticate('jwt', { session: false }),  (req, r
             name: req.body.name,
             id: req.body.id,
             genres: req.body.genres,
+            network: req.body.network,
             officialSite: req.body.officialSite,
             rating: req.body.rating,
-            imdbId: req.body.imdbId,
-            image: req.body.image
+            language: req.body.language,
+            image: req.body.image,
+            premiered: req.body.premiered,
+            status: req.body.status,
+            summary: req.body.summary,
+            url: req.body.url
         }
 
         //Append to profile favshow data and save to DB

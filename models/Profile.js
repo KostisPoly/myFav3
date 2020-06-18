@@ -122,11 +122,32 @@ const ProfileSchema = new Schema({
             rating: {
                 type: String
             },
-            imdbId: {
+            language: {
                 type: String
             },
             image: {
-                type: [String]
+                medium: {
+                    type: String
+                },
+                original: {
+                    type: String
+                }
+
+            },
+            network: {
+                type: String
+            },
+            premiered: {
+                type: String
+            },
+            status: {
+                type: String
+            },
+            summary: {
+                type: String
+            },
+            url: {
+                type: String
             }
         }
     ]

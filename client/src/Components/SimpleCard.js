@@ -24,49 +24,110 @@ export default function ImgMediaCard(props) {
 
     useEffect(() => {
         console.log(props);
-        //document.body.style.backgroundImage = 'url(https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@.jpg)';
+        //document.body.style.backgroundImage = `url(${props.card.})`;
     }, []);
 
-    if(!props.card.title){
-        return <div>LOADING....</div>;
+    switch (props.card.apiType) {
+        case 'movie':
+            return (
+                <div>
+                {props.card.title ? (
+                    <Card className={classes.root}>
+                    <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        alt={props.card.title}
+                        height="300"
+                        image={props.card.poster}
+                        title={props.card.title}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                        {props.card.title}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                        {props.card.plot}
+                        </Typography>
+                    </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                    <Button size="small" color="primary" target="_blank" href={props.card.trailer}>
+                        Watch Trailer
+                    </Button>
+                    <Link size="small" color="primary" href={props.card.trailer} target="_blank">
+                        Watch Trailer
+                    </Link>
+                    <Typography variant="subtitle2" color="textSecondary">
+                        Duration : {props.card.length}    
+                    </Typography>
+                    <Badge color="secondary" badgeContent={props.card.rating}>
+                        <Icon>stars-sharp</Icon>
+                    </Badge>
+                    </CardActions>
+                </Card>
+                ) : (
+                    <div>LOADING....</div>
+                )}
+                </div>
+            );
+        case 'show':
+            return (
+                <div>
+                {props.card.name ? (
+                    <Card className={classes.root}>
+                    <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        alt={props.card.name}
+                        height="300"
+                        image={props.card.image ? props.card.image.original : ''}
+                        title={props.card.name}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                        {props.card.name}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                        {props.card.summary}
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary">
+                            Language : {props.card.language}    
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary">
+                            Network : {props.card.network}    
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary">
+                            Premiered : {props.card.premiered}    
+                        </Typography>
+                        <Typography variant="subtitle2" color="textSecondary">
+                            status : {props.card.status}    
+                        </Typography>
+                        <Badge anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                    }}color="secondary"
+                                badgeContent={props.card.rating}
+                        >
+                            <Icon>stars-sharp</Icon>
+                        </Badge>
+                    </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                        <Button size="small" color="primary" target="_blank" href={props.card.officialSite}>
+                            Official Site
+                        </Button>
+                        <Link size="small" color="primary" href={props.card.url} target="_blank">
+                            TvMaze
+                        </Link>
+                    </CardActions>
+                </Card>
+                ) : (
+                    <div>LOADING....</div>
+                )}
+                </div>
+            );
+        default:
+            return null;        
     }
-
-    return (
-        <Card className={classes.root}>
-            <CardActionArea>
-            <CardMedia
-                component="img"
-                alt={props.card.title}
-                height="300"
-                image={props.card.poster}
-                title={props.card.title}
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                {props.card.title}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                {props.card.plot}
-                </Typography>
-            </CardContent>
-            </CardActionArea>
-            <CardActions>
-            <Button size="small" color="primary" target="_blank" href={props.card.trailer}>
-                Watch Trailer
-            </Button>
-            <Link size="small" color="primary" href={props.card.trailer} target="_blank">
-                Watch Trailer
-            </Link>
-            <Typography variant="subtitle2" color="textSecondary">
-                Duration : {props.card.length}    
-            </Typography>
-            {/* <Typography variant="h5" color="textSecondary">
-                {props.card.rating}    
-            </Typography> */}
-            <Badge color="secondary" badgeContent={props.card.rating}>
-                <Icon>stars-sharp</Icon>
-            </Badge>
-            </CardActions>
-        </Card>
-    );
+    
 }

@@ -8,23 +8,27 @@ import { Button } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import Particle from './Particles';
 import Typography from '@material-ui/core/Typography';
-import { addMovie } from '../actions/profileActions';
+import { addShow } from '../actions/profileActions';
 import SimpleCard from './SimpleCard';
 
-class AddMovie extends Component {
+class AddShow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            apiType: 'movie',
+            apiType: 'show',
             responseData: [],
-            title: '',
-            trailer: '',
-            plot: '',
             id: '',
-            year: '',
-            length: '',
+            image: [],
+            language: '',
+            name: '',
+            genres: [],
+            network: '',
+            officialSite: '',
+            premiered: '',
             rating: '',
-            poster: ''
+            status: '',
+            summary: '',
+            url: ''
         }
 
         this.onChange = this.onChange.bind(this);
@@ -33,30 +37,38 @@ class AddMovie extends Component {
     }
 
     handleChange(e, value) {
+        console.log(e.target.value, value);
+        console.log(value);
         if (value) {
-            document.body.style.backgroundPosition = 'top';
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundRepeat = 'no-repeat';
-            document.body.style.backgroundImage = `url(${value.image})`;
+            if (value.show.image) {
+                document.body.style.backgroundPosition = 'top';
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundImage = `url(${value.show.image.original})`;
+            } else {
+                document.body.style.backgroundPosition = '';
+                document.body.style.backgroundSize = '';
+                document.body.style.backgroundRepeat = '';
+                document.body.style.backgroundImage = '';
+            }
 
-            fetch(`https://imdb-internet-movie-database-unofficial.p.rapidapi.com/film/${value.id}`, {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "imdb-internet-movie-database-unofficial.p.rapidapi.com",
-                    "x-rapidapi-key": "877f17a236mshcc764669bf2f219p1af399jsnc58083ed065e"
-                }
-            })
+            fetch(`https://api.tvmaze.com/shows/${value.show.id}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 this.setState({
-                    title: data.title,
-                    trailer: data.trailer.link,
-                    plot: data.plot,
                     id: data.id,
-                    year: data.year,
-                    length: data.length,
-                    rating: data.rating,
-                    poster: data.poster                                                  
+                    image: data.image,
+                    language: data.language,
+                    name: data.name,
+                    genres: data.genres,
+                    network: (data.network ? data.network.name : data.webChannel.name),
+                    officialSite: data.officialSite,
+                    premiered: data.premiered,
+                    rating: data.rating.average,
+                    status: data.status,
+                    summary: data.summary,
+                    url: data.url
                 });
             })
             .catch(err => {
@@ -69,42 +81,38 @@ class AddMovie extends Component {
     onChange(e) {
         
         if (e.target.value.length > 3 ) {
-            fetch(`https://imdb-internet-movie-database-unofficial.p.rapidapi.com/search/${e.target.value}`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "imdb-internet-movie-database-unofficial.p.rapidapi.com",
-                "x-rapidapi-key": "877f17a236mshcc764669bf2f219p1af399jsnc58083ed065e"
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const responseTitles = data.titles;
-            this.setState({
-                responseData: responseTitles
+            fetch(`https://api.tvmaze.com/search/shows?q=${e.target.value}`)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    responseData: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
             });
-        })
-        .catch(err => {
-            console.log(err);
-        });
         }
-        
     }
     onSubmit(e) {
         //On submit dispatch action and redirect and remove background style
         e.preventDefault();
         console.log(this.state);
-        const movieData = {
-            title: this.state.title,
-            trailer: this.state.trailer,
-            plot: this.state.plot,
-            id: this.state.id,
-            year: this.state.year,
-            length: this.state.length,
+        const showData = {
+            id: this.state.id.toString(),
+            image: this.state.image,
+            language: this.state.language,
+            name: this.state.name,
+            genres: this.state.genres,
+            network: this.state.network,
+            officialSite: this.state.officialSite,
+            premiered: this.state.premiered,
             rating: this.state.rating,
-            poster: this.state.poster  
+            status: this.state.status,
+            summary: this.state.summary,
+            url: this.state.url
         };
 
-        this.props.addMovie(movieData, this.props.history);
+        this.props.addShow(showData, this.props.history);
         
         document.body.style.backgroundPosition = '';
         document.body.style.backgroundSize = '';
@@ -134,9 +142,9 @@ class AddMovie extends Component {
                     onChange={this.handleChange}
                     id="search-box"
                     options={this.state.responseData}
-                    getOptionLabel = {(option) => option.title}
+                    getOptionLabel = {(option) => option.show.name}
                     style={{ width: '50vw' }}
-                    renderInput={(params) => <TextField {...params} label="Search Movie" variant="outlined" onChange={this.onChange} />}
+                    renderInput={(params) => <TextField {...params} label="Search TV Show" variant="outlined" onChange={this.onChange} />}
                 />
                 <Button type="submit" variant="contained" size="large" color="secondary">ADD</Button>
                 </form>
@@ -147,8 +155,8 @@ class AddMovie extends Component {
     }
 }
 
-AddMovie.propTypes = {
-    addMovie: PropTypes.func.isRequired,
+AddShow.propTypes = {
+    addShow: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };
@@ -157,4 +165,4 @@ const mapStateToProps = (state) => ({
     profile:state.profile,
     errors: state.errors
 });
-export default connect(mapStateToProps, { addMovie })(withRouter(AddMovie));
+export default connect(mapStateToProps, { addShow })(withRouter(AddShow));
