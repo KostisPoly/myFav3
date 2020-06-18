@@ -78,6 +78,7 @@ class AddMovie extends Component {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             const responseTitles = data.titles;
             this.setState({
                 responseData: responseTitles

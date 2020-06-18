@@ -84,6 +84,7 @@ class AddShow extends Component {
             fetch(`https://api.tvmaze.com/search/shows?q=${e.target.value}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 this.setState({
                     responseData: data
                 });

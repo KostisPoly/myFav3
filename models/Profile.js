@@ -64,41 +64,74 @@ const ProfileSchema = new Schema({
                 type: String
             },
             duration: {
-                type: String,
-                required: true
+                type: Number
+            },
+            link: {
+                type: String
+            },
+            rank: {
+                type: Number
+            },
+            explicit: {
+                type: Number
+            },
+            albumTracklist: {
+                type: String
+            },
+            artistTracklist: {
+                type: String
             },
             artist: {
                 name: {
-                    type: String,
-                    required: true
+                    type: String
                 },
                 id: {
-                    type: String,
-                    required: true
+                    type: String
                 },
-                picture: {
-                    type: String,
-                    required: true
+                link: {
+                    type: String
+                },
+                pictures: {
+                    original: {
+                        type: String
+                    },
+                    big: {
+                        type: String
+                    },
+                    medium: {
+                        type: String
+                    },
+                    small: {
+                        type: String
+                    },
+                    xl: {
+                        type: String
+                    }
                 }
             },
             album: {
                 title: {
-                    type: String,
-                    required: true
+                    type: String
                 },
                 id: {
-                    type: String,
-                    required: true
-                },
-                cover: {
-                    type: String,
-                    required: true
-                },
-                tracklist: {
                     type: String
                 },
-                released: {
-                    type: String
+                covers: {
+                    original: {
+                        type: String
+                    },
+                    big: {
+                        type: String
+                    },
+                    medium: {
+                        type: String
+                    },
+                    small: {
+                        type: String
+                    },
+                    xl: {
+                        type: String
+                    }
                 }
             }    
         }

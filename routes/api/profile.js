@@ -133,22 +133,17 @@ router.post('/songs', passport.authenticate('jwt', { session: false }),  (req, r
     Profile.findOne({ user: req.user.id })
     .then(profile => {
         const song = {
+            albumTracklist: req.body.albumMore,
+            artistTracklist: req.body.artistMore,
             title: req.body.title,
             id: req.body.id,
-            preview: req.body.preview,
+            link: req.body.link,
             duration: req.body.duration,
-            artist: {
-                name: req.body.artist.name,
-                id: req.body.artist.id,
-                picture: req.body.artist.picture
-            },
-            album: {
-                title: req.body.album.title,
-                id: req.body.album.id,
-                cover: req.body.album.cover,
-                tracklist: req.body.album.tracklist,
-                released: req.body.album.released
-            }
+            rank: req.body.rank,
+            preview: req.body.preview,
+            explicit: req.body.explicit,
+            artist: req.body.artist,
+            album: req.body.album
         }
 
         //Append to profile favsong data and save to DB

@@ -11,11 +11,30 @@ import Link from '@material-ui/core/Link';
 import Icon from '@material-ui/core/Icon';
 import Badge from '@material-ui/core/Badge';
 
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+
 const useStyles = makeStyles({
     root: {
         paddingTop: '5vh',
         maxWidth: '70vw',
         margin: '0 auto'
+    },
+    details: {
+        display: 'flex',
+        flexDirection: 'column-reverse',
+    },
+    content: {
+        flex: '1 0 auto',
+    },
+    cover: {
+        width: '55%',
+        height: '30vh',
+        margin: '0 auto'
+    },
+    playIcon: {
+        height: 38,
+        width: 38,
     },
 });
 
@@ -121,6 +140,58 @@ export default function ImgMediaCard(props) {
                         </Link>
                     </CardActions>
                 </Card>
+                ) : (
+                    <div>LOADING....</div>
+                )}
+                </div>
+            );
+        case 'song':
+            return (
+                <div>
+                {props.card.title ? (
+                    <Card className={classes.root}>
+                        <div className={classes.details}>
+                            <CardActionArea>
+                            <CardContent className={classes.content}>
+                                <Typography component="h5" variant="h5">
+                                    {props.card.title}
+                                </Typography>
+                                <Typography variant="subtitle1" color="textSecondary">
+                                    length : {props.card.duration}
+                                </Typography>
+                                <Typography variant="subtitle1" color="textSecondary"> 
+                                    rank : {props.card.rank}
+                                </Typography>
+                                <Typography variant="subtitle1" color="textSecondary">
+                                    explicit : {props.card.explicit}
+                                </Typography>
+                            </CardContent>
+                            </CardActionArea>
+                            <CardMedia
+                            className={classes.cover}
+                            image={props.card.album.covers.medium}
+                            title={props.card.title}
+                        />
+                        </div>
+                        
+                        <CardActions>
+                            {/* <Button size="small" color="primary" target="_blank" href={props.card.officialSite}>
+                                Official Site
+                            </Button> */}
+                            
+                            <CardMedia 
+                                component="iframe"
+                                height="100%"
+                                width="100%"
+                                src={props.card.preview}
+                                title={props.card.title}
+                            />
+                            
+                        </CardActions>
+                        <Link size="medium" color="primary" href={props.card.link} target="_blank">
+                                Deezer
+                            </Link>
+                    </Card>
                 ) : (
                     <div>LOADING....</div>
                 )}
